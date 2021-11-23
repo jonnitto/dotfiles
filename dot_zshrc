@@ -27,13 +27,14 @@ eval "$(starship init zsh)"
 # # [the ZSH_DISABLE_COMPFIX] flag to ignore it.
 # ZSH_DISABLE_COMPFIX="true"
 
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH
+FPATH=$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH
 
-    autoload -Uz compinit
-    compaudit | xargs chmod g-w
-    compaudit
-fi
+autoload -Uz compinit
+compaudit | xargs chmod g-w
+compaudit
+
+zstyle :compinstall filename '/Users/jon/.zshrc'
+autoload -Uz compinit
 
 _msgInfo() { printf "\n    ${fg[cyan]}${1}${fg[green]} ${2}${reset_color}\n\n"; }
 _msgSuccess() { printf "\n    ${fg[green]}${1}${reset_color} ${2}\n\n"; }
