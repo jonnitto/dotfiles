@@ -23,6 +23,7 @@ zplug load
 
 eval "$(starship init zsh)"
 
+echo "Hallo brew"
 if type brew &>/dev/null; then
     echo "Hallo Welt"
     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
