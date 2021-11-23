@@ -8,7 +8,6 @@ export NVM_COMPLETION=true
 export NVM_NO_USE=true
 export NVM_AUTO_USE=true
 export ZSH_PLUGINS_ALIAS_TIPS_TEXT='💡 '
-export EMOJI_CLI_KEYBIND='^ '
 
 zplug "djui/alias-tips"
 zplug "lukechilds/zsh-nvm"
@@ -21,9 +20,9 @@ zplug check || zplug install
 
 zplug load
 
-echo "Hallo brew"
+eval "$(starship init zsh)"
+
 if type brew &>/dev/null; then
-    echo "Hallo Welt"
     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 
     autoload -Uz compinit
@@ -216,5 +215,3 @@ flow() {
     builtin cd $startDirectory
     return $flowExitCode
 }
-
-eval "$(starship init zsh)"
