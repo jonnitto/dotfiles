@@ -12,7 +12,7 @@ export EMOJI_CLI_KEYBIND='^ '
 
 zplug "djui/alias-tips"
 zplug "lukechilds/zsh-nvm"
-# zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-autosuggestions"
 
 # zplug check returns true if all packages are installed
@@ -24,6 +24,7 @@ zplug load
 eval "$(starship init zsh)"
 
 if type brew &>/dev/null; then
+    echo "Hallo Welt"
     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 
     autoload -Uz compinit
