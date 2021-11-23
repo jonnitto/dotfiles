@@ -23,6 +23,18 @@ zplug load
 
 eval "$(starship init zsh)"
 
+# The way zsh completions are loaded, you will get the message
+# even if there is no real security risk. So just enable
+# [the ZSH_DISABLE_COMPFIX] flag to ignore it.
+ZSH_DISABLE_COMPFIX="true"
+
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+    autoload -Uz compinit
+    compinit
+fi
+
 _msgInfo() { printf "\n    ${fg[cyan]}${1}${fg[green]} ${2}${reset_color}\n\n"; }
 _msgSuccess() { printf "\n    ${fg[green]}${1}${reset_color} ${2}\n\n"; }
 _msgError() { printf "\n    ${fg[red]}${1}${reset_color} ${2}\n\n"; }
