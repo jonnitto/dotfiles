@@ -33,9 +33,6 @@ autoload -Uz compinit
 compaudit | xargs chmod g-w
 compaudit
 
-zstyle :compinstall filename '/Users/jon/.zshrc'
-autoload -Uz compinit
-
 _msgInfo() { printf "\n    ${fg[cyan]}${1}${fg[green]} ${2}${reset_color}\n\n"; }
 _msgSuccess() { printf "\n    ${fg[green]}${1}${reset_color} ${2}\n\n"; }
 _msgError() { printf "\n    ${fg[red]}${1}${reset_color} ${2}\n\n"; }
@@ -222,3 +219,12 @@ flow() {
     builtin cd $startDirectory
     return $flowExitCode
 }
+
+# Lines configured by zsh-newuser-install
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/Users/jon/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
