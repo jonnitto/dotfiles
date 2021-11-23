@@ -21,8 +21,6 @@ zplug check || zplug install
 
 zplug load
 
-eval "$(starship init zsh)"
-
 echo "Hallo brew"
 if type brew &>/dev/null; then
     echo "Hallo Welt"
@@ -218,3 +216,5 @@ flow() {
     builtin cd $startDirectory
     return $flowExitCode
 }
+
+eval "$(starship init zsh)"
