@@ -11,7 +11,7 @@ export ZSH_PLUGINS_ALIAS_TIPS_TEXT='💡 '
 
 zplug "djui/alias-tips"
 zplug "lukechilds/zsh-nvm"
-zplug "zsh-users/zsh-completions"
+# zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-autosuggestions"
 
 # zplug check returns true if all packages are installed
@@ -22,15 +22,16 @@ zplug load
 
 eval "$(starship init zsh)"
 
-# The way zsh completions are loaded, you will get the message
-# even if there is no real security risk. So just enable
-# [the ZSH_DISABLE_COMPFIX] flag to ignore it.
-ZSH_DISABLE_COMPFIX="true"
+# # The way zsh completions are loaded, you will get the message
+# # even if there is no real security risk. So just enable
+# # [the ZSH_DISABLE_COMPFIX] flag to ignore it.
+# ZSH_DISABLE_COMPFIX="true"
 
 if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH
 
     autoload -Uz compinit
+    compaudit | xargs chmod g-w
     compaudit
 fi
 
