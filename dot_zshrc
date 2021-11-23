@@ -22,3 +22,190 @@ zplug check || zplug install
 zplug load
 
 eval "$(starship init zsh)"
+
+_msgInfo() { printf "\n    ${fg[cyan]}${1}${fg[green]} ${2}${reset_color}\n\n"; }
+_msgSuccess() { printf "\n    ${fg[green]}${1}${reset_color} ${2}\n\n"; }
+_msgError() { printf "\n    ${fg[red]}${1}${reset_color} ${2}\n\n"; }
+
+alias df='df -h'
+alias du='du -h --max-depth=1'
+alias grep='grep --color=auto'
+alias mkdir='mkdir -pv'
+alias head='head -n 50'
+alias tail='tail -n 50'
+
+alias ..='cd ..'         # Go up one directory
+alias cd..='cd ..'       # Common misspelling for going up one directory
+alias ...='cd ../..'     # Go up two directories
+alias ....='cd ../../..' # Go up three directories
+alias -- -='cd -'        # Go back
+
+# Shell History
+alias h='history'
+
+# Display whatever file is regular file or folder
+catt() {
+    for i in "$@"; do
+        if [ -d "$i" ]; then
+            ls "$i"
+        else
+            cat "$i"
+        fi
+    done
+}
+
+# List directory contents
+if ls --color -d . &>/dev/null; then
+    alias ls="ls --color=auto"
+elif ls -G -d . &>/dev/null; then
+    alias ls='ls -G' # Compact view, show colors
+fi
+
+alias sl=ls
+alias l='ls -a'
+alias ll='ls -lh'
+alias la='ls -lsha'
+alias l1='ls -1'
+
+alias Dev='cd ~/Development'
+alias Plugins='cd ~/Development/Neos.Plugins'
+alias copyKey='_msgSuccess "SSH Key copied to clipboard";pbcopy < ~/.ssh/id_ed25519.pub'
+alias copyRSAKey='_msgSuccess "SSH Key copied to clipboard";pbcopy < ~/.ssh/id_rsa.pub'
+alias startserver='http-server -a localhost -p 8000 -c-1'
+alias installGoogleFonts='_msgSuccess "Install all Google Fonts ...";curl https://raw.githubusercontent.com/qrpike/Web-Font-Load/master/install.sh | sh'
+alias ios='open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app'
+alias sshConnect='ssh $(basename "$PWD")'
+alias editConnect='code ~/.ssh/config'
+alias yui='yarn upgrade-interactive --latest'
+alias yuiglobal='yarn global upgrade-interactive --latest'
+alias openNeosPlugins='code ~/Development/Neos.Plugins'
+neosPluginsDiff() {
+    if [ $1 ]; then
+        if [ ! -d ~/Development/Neos.Plugins/$1 ]; then
+            _msgError $1 "is not available in Neos.Plugins"
+            return 1
+        fi
+
+        for distributionPackage in DistributionPackages/*; do
+            if [ DistributionPackages/$1 = $distributionPackage ]; then
+                ksdiff ~/Development/Neos.Plugins/$1 $distributionPackage
+                return 0
+            fi
+        done
+
+        for category in Packages/*; do
+            for package in ${category}/*; do
+                if [ ${category}/${1} = $package ]; then
+                    ksdiff ~/Development/Neos.Plugins/$1 $package
+                    return 0
+                fi
+            done
+        done
+
+        _msgError $1 "was not found"
+        return 1
+    else
+        ksdiff ~/Development/Neos.Plugins Packages/Plugins Packages/Carbon
+        return 0
+    fi
+}
+deleteGitTag() {
+    if [ -z ${1+x} ]; then
+        _msgError "Please set a tag as first argument"
+    else
+        _msgError "Delete Git tag" "'$1'"
+        git tag -d $1
+        git push origin :refs/tags/$1
+        echo
+    fi
+}
+
+sshList() {
+    # list hosts defined in ssh config
+    awk '$1 ~ /Host$/ {for (i=2; i<=NF; i++) print $i}' ~/.ssh/config
+}
+
+alias cu='composer update'
+alias ci='composer install'
+alias co='composer outdated'
+alias cr='composer require'
+alias crnu='composer require --no-update'
+alias flowCreateAdmin='flow user:create --roles Administrator'
+
+function commitUpdate() {
+    git add *.lock
+    git commit -m "Upgrade: Update dependencies"
+    git push
+}
+
+_flow_is_inside_base_distribution() {
+    local startDirectory=$(pwd)
+    while [[ ! -f flow ]]; do
+
+        if [[ $(pwd) == "/" ]]; then
+            builtin cd $startDirectory
+            return 1
+        fi
+        builtin cd ..
+    done
+    builtin cd $startDirectory
+    return 0
+}
+
+_flow() {
+    if _flow_is_inside_base_distribution; then
+
+        local startDirectory=$(pwd)
+        while [ ! -f flow ]; do
+            builtin cd ..
+        done
+        if (($CURRENT > 2)); then
+            CURRENT=$CURRENT-1
+            local cmd=${words[2]}
+            shift words
+
+            _flow_subcommand
+        else
+            _flow_main_commands
+        fi
+        builtin cd $startDirectory
+    fi
+}
+compdef _flow flow
+
+_flow_main_commands() {
+    if [ ! -f Data/Temporary/Development/.flow-autocompletion-maincommands ]; then
+        mkdir -p Data/Temporary/Development/
+        ./flow help | grep "^[* ][ ]" | php ~/.flow.php >Data/Temporary/Development/.flow-autocompletion-maincommands
+    fi
+
+    # fills up cmdlist variable
+    eval "$(cat Data/Temporary/Development/.flow-autocompletion-maincommands)"
+
+    _describe 'flow command' cmdlist
+}
+
+_flow_subcommand() {
+    if [ ! -f Data/Temporary/Development/.flow-autocompletion-command-$cmd ]; then
+        ./flow help $cmd >Data/Temporary/Development/.flow-autocompletion-command-$cmd
+    fi
+
+    compadd -x "$(cat Data/Temporary/Development/.flow-autocompletion-command-$cmd)"
+}
+
+flow() {
+    if _flow_is_inside_base_distribution; then
+    else
+        _msgError "Flow not found inside a parent of current directory"
+        return 1
+    fi
+
+    local startDirectory=$(pwd)
+    while [ ! -f flow ]; do
+        builtin cd ..
+    done
+    php -d memory_limit=-1 ./flow $@
+    local flowExitCode=$?
+    builtin cd $startDirectory
+    return $flowExitCode
+}
