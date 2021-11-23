@@ -1,0 +1,70 @@
+[core]
+filemode = false
+editor = vim
+
+[user]
+name = Jon Uhlmann
+email = account@uhlmann.pro
+signingkey = D28614EFA904FBBECA422C6F690A098DACCC23DF
+
+[url "git@github.com:"]
+insteadOf = "https://github.com/"
+
+[alias]
+co = checkout
+ci = commit
+br = branch
+l = log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+p = push origin HEAD
+d = diff
+
+[color]
+ui = auto
+[color "branch"]
+current = yellow reverse
+local = yellow
+remote = green
+[color "diff"]
+meta = yellow
+frag = magenta
+old = red
+new = green
+whitespace = red reverse
+[color "status"]
+added = yellow
+changed = green
+untracked = cyan
+[core]
+whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+excludesfile = ~/.gitignore_global
+
+[commit]
+gpgsign = true
+
+[difftool "Kaleidoscope"]
+cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[difftool]
+prompt = false
+[diff]
+tool = Kaleidoscope
+
+[mergetool "Kaleidoscope"]
+cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+trustExitCode = true
+[mergetool]
+prompt = false
+[merge]
+tool = Kaleidoscope
+
+[filter "lfs"]
+clean = git-lfs clean -- %f
+smudge = git-lfs smudge -- %f
+process = git-lfs filter-process
+required = true
+
+[credential]
+helper = osxkeychain
+[pull]
+rebase = false
+[gpg]
+program = /usr/local/bin/gpg
