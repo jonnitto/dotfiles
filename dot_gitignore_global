@@ -23,6 +23,7 @@ _site
 .project
 .settings
 .tmproj
+.venv
 *.esproj
 *.sublime-project
 *.sublime-workspace
