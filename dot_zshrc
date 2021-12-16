@@ -141,6 +141,7 @@ alias co='ddev composer outdated'
 alias cr='ddev composer require'
 alias crnu='ddev composer require --no-update'
 alias flowCreateAdmin='ddev flow user:create --roles Administrator'
+alias flowCacheFlush='ddev flow flow:cache:flush'
 
 function commitUpdate() {
     git add *.lock
