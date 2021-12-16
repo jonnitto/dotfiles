@@ -135,13 +135,12 @@ sshList() {
     awk '$1 ~ /Host$/ {for (i=2; i<=NF; i++) print $i}' ~/.ssh/config
 }
 
-alias cu='composer update'
-alias ci='composer install'
-alias co='composer outdated'
-alias cr='composer require'
-alias crnu='composer require --no-update'
-alias flowCreateAdmin='flow user:create --roles Administrator'
-alias ddevFlowCreateAdmin='ddev flow user:create --roles Administrator'
+alias cu='ddev composer update'
+alias ci='ddev composer install'
+alias co='ddev composer outdated'
+alias cr='ddev composer require'
+alias crnu='ddev composer require --no-update'
+alias flowCreateAdmin='ddev flow user:create --roles Administrator'
 
 function commitUpdate() {
     git add *.lock
