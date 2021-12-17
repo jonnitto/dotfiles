@@ -88,6 +88,8 @@ alias sshConnect='ssh $(basename "$PWD")'
 alias editConnect='code ~/.ssh/config'
 alias yui='yarn upgrade-interactive --latest'
 alias yuiglobal='yarn global upgrade-interactive --latest'
+alias pui='pnpm up --latest --interactive'
+alias puiglobal='pnpm up --latest --interactive --global'
 alias openNeosPlugins='code ~/Development/Neos.Plugins'
 neosPluginsDiff() {
     if [ $1 ]; then
