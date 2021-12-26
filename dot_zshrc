@@ -217,7 +217,7 @@ flow() {
     while [ ! -f flow ]; do
         builtin cd ..
     done
-    php -d memory_limit=-1 ddev flow $@
+    ddev flow $@
     local flowExitCode=$?
     builtin cd $startDirectory
     return $flowExitCode
