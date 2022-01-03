@@ -138,6 +138,7 @@ sshList() {
 }
 
 alias cu='ddev composer update'
+alias cui='ddev composer update --interactive'
 alias ci='ddev composer install'
 alias co='ddev composer outdated'
 alias cr='ddev composer require'
@@ -146,7 +147,7 @@ alias flowCreateAdmin='ddev flow user:create --roles Administrator'
 alias flowCacheFlush='ddev flow flow:cache:flush'
 
 function commitUpdate() {
-    git add *.lock
+    git add *.lock pnpm-lock.yaml
     git commit -m "Upgrade: Update dependencies"
     git push
 }
