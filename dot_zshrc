@@ -71,7 +71,7 @@ elif ls -G -d . &>/dev/null; then
     alias ls='ls -G' # Compact view, show colors
 fi
 
-alias traefik ~/Development/Traefik/traefik --configFile=/Users/jon/Development/Traefik/myconfigfile.toml
+alias traefik='~/Development/Traefik/traefik --configFile=/Users/jon/Development/Traefik/myconfigfile.toml'
 
 alias sl=ls
 alias l='ls -a'
