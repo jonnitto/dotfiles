@@ -41,5 +41,5 @@ validation-status.json
 # Folders to ignore
 bower_components
 node_modules
-docker
 ___IGNORE__
+___IGNORE__*
