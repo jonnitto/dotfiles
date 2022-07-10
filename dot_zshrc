@@ -264,4 +264,11 @@ export PNPM_HOME="/Users/jon/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
 # Fig post block. Keep at the bottom of this file.
-. "$HOME/.fig/shell/zshrc.post.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
+
+# bun completions
+[ -s "/Users/jon/.bun/_bun" ] && source "/Users/jon/.bun/_bun"
+
+# Bun
+export BUN_INSTALL="/Users/jon/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
