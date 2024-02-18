@@ -269,6 +269,8 @@ export PATH="$PNPM_HOME:$PATH"
 # bun completions
 [ -s "/Users/jon/.bun/_bun" ] && source "/Users/jon/.bun/_bun"
 
+eval "$(zoxide init zsh)"
+
 # Bun
 export BUN_INSTALL="/Users/jon/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
