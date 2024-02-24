@@ -136,6 +136,17 @@ deleteGitTag() {
     fi
 }
 
+deleteGitTags() {
+    if [ -z ${1+x} ]; then
+        _msgError "Please set a tag as first argument"
+    else
+        _msgError "Delete Git tags" "'$1*'"
+        git push -d origin $(git tag -l "$1*")
+        git tag -d $(git tag -l "$1*")
+        echo
+    fi
+}
+
 sshList() {
     # list hosts defined in ssh config
     awk '$1 ~ /Host$/ {for (i=2; i<=NF; i++) print $i}' ~/.ssh/config
